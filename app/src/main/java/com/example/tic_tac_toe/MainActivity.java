@@ -4,7 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 
 public class MainActivity extends AppCompatActivity {
     int activePlayer=0;
@@ -29,9 +33,36 @@ public class MainActivity extends AppCompatActivity {
         counter.animate().translationYBy(1000f).setDuration(300);
         for(int []winningPosition : gameWin){
             if(gameSet[winningPosition[0]]== gameSet[winningPosition[1]] && gameSet[winningPosition[1]]== gameSet[winningPosition[2]] && gameSet[winningPosition[0]] != 2){
-                System.out.println(gameSet[winningPosition[0]]);
+                String winner ="red" ;
+                if(gameSet[winningPosition[0]] == 0){
+                    winner = "green";
+                }
+
+                TextView winnerMessage = (TextView)findViewById(R.id.winnerMessage);
+                winnerMessage.setText(winner + " has won!");
+                LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+
+                layout.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public void playAgain(View view){
+
+        LinearLayout layout = (LinearLayout)findViewById(R.id.playAgainLayout);
+
+        layout.setVisibility(View.INVISIBLE);
+        activePlayer=0;
+        for(int i=0;i<gameSet.length;i++){
+            gameSet[i]=2;
+        }
+
+        androidx.gridlayout.widget.GridLayout Glayout = findViewById(R.id.glayout);
+
+        for(int i=0;i< Glayout.getChildCount();i++){
+            ((ImageView) Glayout.getChildAt(i)).setImageResource(0);
+        }
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
